@@ -51,16 +51,39 @@ router.get('/endereco/:uf/:cidade/:logradouro', async (req, res) => {
     }
 });
 
-Router.get('/cep-xml/:cep', async (req, res) => {
+router.get('/cep-xml/:cep', async (req, res) => {
     const { cep } = req.params;
 
     try {
         const resposta = await fetch(`https://viacep.com.br/ws/${cep}/xml/`);
-        const dados = await resposta.text();
-    
-        res.set('Content-Type', 'application/xml');
-        res.status(200).send(dadosXML);
+        const dadosXml = await resposta.text();
 
+        res.set('Content-Type', 'application/xml');
+        res.status(200).send(dadosXml);
+
+    } catch (err) {
+        res.status(500).json({
+            erro: "Erro de comunicação com VIACEP"
+        });
+    }
+});
+
+router.get('/endereco-xml/:uf/:cidade/:logradouro', async (req , res) => {
+    const { uf, cidade, logradouro } = req.params;
+
+    if (cidade.length < 3 || logradouro.length < 3) {
+        return res.status(400).json({
+            erro: "Cidade e Logradouro devem ter no mínimo 3 caracteres."
+        });
+    }
+
+    try {
+        const resposta = await fetch(`https://viacep.com.br/ws/${uf}/${cidade}/${logradouro}/xml/`);
+        const dadosXml = await resposta.text();
+
+        res.set('Content-Type', 'application/xml');
+        res.status(200).send(dadosXml);
+        
     } catch (err) {
         res.status(500).json({
             erro: "Erro de comunicação com VIACEP"
