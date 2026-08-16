@@ -51,4 +51,21 @@ router.get('/endereco/:uf/:cidade/:logradouro', async (req, res) => {
     }
 });
 
+Router.get('/cep-xml/:cep', async (req, res) => {
+    const { cep } = req.params;
+
+    try {
+        const resposta = await fetch(`https://viacep.com.br/ws/${cep}/xml/`);
+        const dados = await resposta.text();
+    
+        res.set('Content-Type', 'application/xml');
+        res.status(200).send(dadosXML);
+
+    } catch (err) {
+        res.status(500).json({
+            erro: "Erro de comunicação com VIACEP"
+        });
+    }
+});
+
 module.exports = router;
