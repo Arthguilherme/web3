@@ -13,6 +13,8 @@ npx serve frontend (caso nao esteja na pasta)
 
 
 12/08/2026
-Foi ensinado a utilizar o ViaCep durante essa aula, que é uma api que busca os endereços de cep e manda as informações no formato de JSON
+Foi ensinado a utilizar o ViaCep durante essa aula, que é uma api que busca os endereços de cep e manda as informações no formato de JSON e pedido uma atividade utilizando a api do VIACEP pra ele voltar como arquivo xml
 
 
+19/08/2026
+O professor está passando como configurar as rotas e a estrutura de pastas
