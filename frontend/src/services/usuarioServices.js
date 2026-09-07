@@ -8,7 +8,7 @@ export const getUsuarios = async (search = '') => {
 };
 
 export const getUsuario = async (id) => {
-    const response = await api.get('/usuarios/${id}');
+    const response = await api.get(`/usuarios/${id}`);
     return response.data;
 };
 

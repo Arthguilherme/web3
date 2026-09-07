@@ -1,4 +1,4 @@
-import { useState, useEfect } from 'react';
+import { useState, useEffect } from 'react';
 import { getUsuarios } from  '../../../services/usuarioServices';
 
 function Usuarios() {
