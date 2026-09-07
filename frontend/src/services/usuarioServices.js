@@ -18,11 +18,11 @@ export const createUsuario = async (data) => {
 };
 
 export const updateUsuario = async (id, data) => {
-    const response = await api.put('/usuarios/${id}', data);
+    const response = await api.put(`/usuarios/${id}`, data);
     return response.data;
 };
 
 export const deleteUsuario = async (id) => {
-    const response = await api.delete('/usuarios/${id}');
+    const response = await api.delete(`/usuarios/${id}`);
     return response.data;
 };

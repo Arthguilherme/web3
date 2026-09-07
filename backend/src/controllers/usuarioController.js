@@ -11,4 +11,14 @@ const buscarUsuarios = async (req, res) => {
     }
 };
 
-module.exports = { buscarUsuarios }
+const criarUsuario = async (req, res) => {
+    try {
+        const novoUsuario = await usuarioService.criarUsuario(req.body);
+        res.status(201).json({ data: novoUsuario });
+
+    } catch (err) {
+        res.status(500).json({ err: 'Erro interno ao criar usuário' });
+    }
+};
+
+module.exports = { buscarUsuarios, criarUsuario }

@@ -12,7 +12,7 @@ function Usuarios() {
                 const data = await getUsuarios();
                 setUsuarios(data.data || []);
             } catch (error) {
-                setError(err.response?.data?.err || err.message || 'Erro ao buscar usuários');
+                setError(error.response?.data?.err || error.message || 'Erro ao buscar usuários');
                 } finally {
                     setLoading(false);
                 }
