@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getUsuarios, createUsuario } from '../../../services/usuarioServices';
+import { getUsuarios, createUsuario, deleteUsuario } from '../../../services/usuarioServices';
 import UsuarioModal from '../../../components/UsuarioModal/UsuarioModal';
 
 const styles = {
@@ -55,7 +55,8 @@ function Usuarios() {
     const [users, setUsuarios] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-const [modalAberto, setModalAberto] = useState(false);
+    const [modalAberto, setModalAberto] = useState(false);
+    
     const handleCriarUsuario = async (dadosUsuario) => {
         try {
             await createUsuario(dadosUsuario);
@@ -64,6 +65,16 @@ const [modalAberto, setModalAberto] = useState(false);
             setModalAberto(false);
         } catch (error) {
             setError(error.response?.data?.err || error.message || 'Erro ao criar usuário');
+        }
+    };
+
+    const handleExcluir = async (id) => {
+        try {
+            await deleteUsuario(id);
+            const data = await getUsuarios();
+            setUsuarios(data.data || []);
+        } catch (error) {
+            setError(error.response?.data?.err || error.message || 'Erro ao excluir usuário');
         }
     };
 
@@ -104,6 +115,7 @@ const [modalAberto, setModalAberto] = useState(false);
                                 <span style={styles.userEmail}>{user.email}</span>
                             </div>
                             <div style={styles.statusBadge}>ID #{user.id}</div>
+                            <button onClick={() => handleExcluir(user.id)}>Excluir</button>
                         </li>
                     ))}
                 </ul>
