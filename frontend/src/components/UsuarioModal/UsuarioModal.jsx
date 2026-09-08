@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useState } from 'react';
+import './UsuarioModal.css';
 
 function UsuarioModal({ aberto, aoFechar, aoSalvar }) {
     const [nome, setNome] = useState('');

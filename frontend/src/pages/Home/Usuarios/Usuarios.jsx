@@ -1,52 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getUsuarios } from  '../../../services/usuarioServices';
 
-function Usuarios() {
-    const [users, setUsuarios] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchUsuarios = async () => {
-            try {
-                const data = await getUsuarios();
-                setUsuarios(data.data || []);
-            } catch (error) {
-                setError(error.response?.data?.err || error.message || 'Erro ao buscar usuários');
-                } finally {
-                    setLoading(false);
-                }
-            };
-
-            fetchUsuarios();
-        }, []);
-     return (
-    <div className="page-container">
-        <h1>Lista de Usuários</h1>
-
-        {loading && <div style={styles.message}>Carregando usuários...</div>}
-
-        {error && <div style={styles.message}>Ops! {error}</div>}
-
-        {!loading && !error && users.length === 0 && (
-            <div style={styles.message}>Nenhum usuário encontrado no momento.</div>
-        )}
-
-        {!loading && !error && users.length > 0 && (
-            <ul style={styles.usersList}>
-                {users.map(user => (
-                    <li key={user.id} style={styles.userCard}>
-                        <div style={styles.userInfo}>
-                            <span style={styles.userName}>{user.nome}</span>
-                            <span style={styles.userEmail}>{user.email}</span>
-                        </div>
-                        <div style={styles.statusBadge}>ID #{user.id}</div>
-                    </li>
-                ))}
-            </ul>
-        )}
-    </div>
-);
 const styles = {
   usersList: {
     listStyleType: 'none',
@@ -95,5 +49,53 @@ const styles = {
     fontSize: '1.2rem',
   },
 };
+
+function Usuarios() {
+    const [users, setUsuarios] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchUsuarios = async () => {
+            try {
+                const data = await getUsuarios();
+                setUsuarios(data.data || []);
+            } catch (error) {
+                setError(error.response?.data?.err || error.message || 'Erro ao buscar usuários');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            fetchUsuarios();
+        }, []);
+     return (
+    <div className="page-container">
+        <h1>Lista de Usuários</h1>
+
+        {loading && <div style={styles.message}>Carregando usuários...</div>}
+
+        {error && <div style={styles.message}>Ops! {error}</div>}
+
+        {!loading && !error && users.length === 0 && (
+            <div style={styles.message}>Nenhum usuário encontrado no momento.</div>
+        )}
+
+        {!loading && !error && users.length > 0 && (
+            <ul style={styles.usersList}>
+                {users.map(user => (
+                    <li key={user.id} style={styles.userCard}>
+                        <div style={styles.userInfo}>
+                            <span style={styles.userName}>{user.nome}</span>
+                            <span style={styles.userEmail}>{user.email}</span>
+                        </div>
+                        <div style={styles.statusBadge}>ID #{user.id}</div>
+                    </li>
+                ))}
+            </ul>
+        )}
+    </div>
+);
+
 }
 export default Usuarios;
