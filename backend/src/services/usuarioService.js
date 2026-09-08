@@ -23,9 +23,21 @@ const excluirUsuario = async (id) => {
     return usuario;
 };
 
+const editarUsuario = async (id, dados) => {
+    const usuario = await Usuario.findByPk(id);
+
+    if (!usuario) {
+        return null;
+    }
+
+    await usuario.update(dados);
+    return usuario;
+};
+
 module.exports = { 
    obterTodosUsuarios, 
    obterUsuarioPorId,
    criarUsuario,
-   excluirUsuario
+   excluirUsuario,
+   editarUsuario
 };
