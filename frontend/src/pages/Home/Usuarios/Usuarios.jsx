@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getUsuarios, createUsuario, deleteUsuario, getUsuario } from '../../../services/usuarioServices';
+import { getUsuarios, createUsuario, deleteUsuario, getUsuario, updateUsuario } from '../../../services/usuarioServices';
 import UsuarioModal from '../../../components/UsuarioModal/UsuarioModal';
 
 const styles = {
@@ -59,15 +59,22 @@ function Usuarios() {
     const [buscaId, setBuscaId] = useState('');
     const [usuarioBuscado, setUsuarioBuscado] = useState(null);
     const [erroBusca, setErroBusca] = useState(null);
+    const [usuarioEditando, setUsuarioEditando] = useState(null);
 
-    const handleCriarUsuario = async (dadosUsuario) => {
+    const handleSalvarUsuario = async (dadosUsuario) => {
         try {
-            await createUsuario(dadosUsuario);
+            if (usuarioEditando) {
+                await updateUsuario(usuarioEditando.id, dadosUsuario);
+            } else {
+                await createUsuario(dadosUsuario);
+            }
+
             const data = await getUsuarios();
             setUsuarios(data.data || []);
             setModalAberto(false);
+            setUsuarioEditando(null);
         } catch (error) {
-            setError(error.response?.data?.err || error.message || 'Erro ao criar usuário');
+            setError(error.response?.data?.err || error.message || 'Erro ao salvar usuário');
         }
     };
 
@@ -112,7 +119,7 @@ function Usuarios() {
     return (
         <div className="page-container">
             <h1>Lista de Usuários</h1>
-            <button onClick={() => setModalAberto(true)}>Novo Usuário</button>
+            <button onClick={() => { setUsuarioEditando(null); setModalAberto(true); }}>Novo Usuário</button>
             <form onSubmit={handleBuscarPorId} style={{ display: 'flex', gap: '8px', margin: '1rem 0' }}>
                 <input
                     type="text"
@@ -151,6 +158,7 @@ function Usuarios() {
                                 <span style={styles.userEmail}>{user.email}</span>
                             </div>
                             <div style={styles.statusBadge}>ID #{user.id}</div>
+                            <button onClick={() => { setUsuarioEditando(user); setModalAberto(true); }}>Editar</button>
                             <button onClick={() => handleExcluir(user.id)}>Excluir</button>
                         </li>
                     ))}
@@ -159,8 +167,9 @@ function Usuarios() {
 
             <UsuarioModal
                 aberto={modalAberto}
-                aoFechar={() => setModalAberto(false)}
-                aoSalvar={handleCriarUsuario}
+                aoFechar={() => { setModalAberto(false); setUsuarioEditando(null); }}
+                aoSalvar={handleSalvarUsuario}
+                usuarioEditando={usuarioEditando}
             />
         </div>
     );
