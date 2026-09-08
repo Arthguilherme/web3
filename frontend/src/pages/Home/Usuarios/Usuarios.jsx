@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getUsuarios, createUsuario, deleteUsuario } from '../../../services/usuarioServices';
+import { getUsuarios, createUsuario, deleteUsuario, getUsuario } from '../../../services/usuarioServices';
 import UsuarioModal from '../../../components/UsuarioModal/UsuarioModal';
 
 const styles = {
@@ -56,7 +56,10 @@ function Usuarios() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [modalAberto, setModalAberto] = useState(false);
-    
+    const [buscaId, setBuscaId] = useState('');
+    const [usuarioBuscado, setUsuarioBuscado] = useState(null);
+    const [erroBusca, setErroBusca] = useState(null);
+
     const handleCriarUsuario = async (dadosUsuario) => {
         try {
             await createUsuario(dadosUsuario);
@@ -78,6 +81,20 @@ function Usuarios() {
         }
     };
 
+    const handleBuscarPorId = async (e) => {
+        e.preventDefault();
+        setErroBusca(null);
+        setUsuarioBuscado(null);
+
+        try {
+            const data = await getUsuario(buscaId);
+            setUsuarioBuscado(data.data);
+        } catch (error) {
+            setErroBusca(error.response?.data?.err || error.message || 'Usuário não encontrado');
+        }
+    };
+
+
     useEffect(() => {
         const fetchUsuarios = async () => {
             try {
@@ -95,9 +112,28 @@ function Usuarios() {
     return (
         <div className="page-container">
             <h1>Lista de Usuários</h1>
-
             <button onClick={() => setModalAberto(true)}>Novo Usuário</button>
+            <form onSubmit={handleBuscarPorId} style={{ display: 'flex', gap: '8px', margin: '1rem 0' }}>
+                <input
+                    type="text"
+                    placeholder="Buscar por ID"
+                    value={buscaId}
+                    onChange={(e) => setBuscaId(e.target.value)}
+                />
+                <button type="submit">Buscar</button>
+            </form>
 
+            {erroBusca && <div style={styles.message}>Ops! {erroBusca}</div>}
+
+            {usuarioBuscado && (
+                <li style={{ ...styles.userCard, listStyleType: 'none', marginBottom: '1rem' }}>
+                    <div style={styles.userInfo}>
+                        <span style={styles.userName}>{usuarioBuscado.nome}</span>
+                        <span style={styles.userEmail}>{usuarioBuscado.email}</span>
+                    </div>
+                    <div style={styles.statusBadge}>ID #{usuarioBuscado.id}</div>
+                </li>
+            )}
             {loading && <div style={styles.message}>Carregando usuários...</div>}
 
             {error && <div style={styles.message}>Ops! {error}</div>}
