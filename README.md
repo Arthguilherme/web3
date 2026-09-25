@@ -5,6 +5,7 @@ quanto o frontend
 
 Comandos utilizados em aula:
 npm init (para baixar os módulos do Node)
+npm nodemon
 npm i express (para baixar e adicionar a dependencia express no package.json)
 npm i cors (para baixar e adicionar a dependencia express no package.json)
 npm run start (para levantar o servidor)

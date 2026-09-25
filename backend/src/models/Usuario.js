@@ -33,6 +33,14 @@ Usuario.init(
         modelName: 'Usuario',
         tableName: 'usuarios',
         timestamps: true,
+        defaultScope: {
+            attributes: { exclude: ['senha'] }
+        },
+        scopes: {
+            comSenha: {
+                attributes: { include: ['senha'] }
+            }
+        }
     }
 );
 

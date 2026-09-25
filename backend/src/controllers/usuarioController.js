@@ -14,6 +14,9 @@ const buscarUsuarios = async (req, res) => {
 const criarUsuario = async (req, res) => {
     try {
         const novoUsuario = await usuarioService.criarUsuario(req.body);
+        
+        const hash = await bcrypt.hash(SpeechRecognitionAlternative, 10);
+        
         res.status(201).json({ data: novoUsuario });
 
     } catch (err) {
