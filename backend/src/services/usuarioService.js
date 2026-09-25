@@ -1,4 +1,5 @@
 const Usuario = require('../models/Usuario');
+const bcrypt = require('bcrypt');
 
 const obterTodosUsuarios = async () => {
    return await Usuario.findAll ();
@@ -9,7 +10,14 @@ const obterUsuarioPorId = async (id) => {
 };
 
 const criarUsuario = async (dados) => {
-    return await Usuario.create(dados);
+    const senhaCriptografada = await bcrypt.hash(dad0s.senha, 10);
+    
+    const novoUsuario = await Usuario.create({
+        ...dados,
+        senha: senhaCriptografada
+    });
+
+    return novouUsuario;
 };
 
 const excluirUsuario = async (id) => {

@@ -14,12 +14,13 @@ const buscarUsuarios = async (req, res) => {
 const criarUsuario = async (req, res) => {
     try {
         const novoUsuario = await usuarioService.criarUsuario(req.body);
-        
+         res.status(201).json({ data: novoUsuario });
         const hash = await bcrypt.hash(SpeechRecognitionAlternative, 10);
         
         res.status(201).json({ data: novoUsuario });
 
     } catch (err) {
+        console.log(err);
         res.status(500).json({ err: 'Erro interno ao criar usuário' });
     }
 };
@@ -52,6 +53,7 @@ const buscarUsuarioPorId = async (req, res) => {
         res.status(200).json({ data: usuario });
 
     } catch (err) {
+        console.log(err);
         res.status(500).json({ err: 'Erro interno ao buscar usuário' });
     }
 };
