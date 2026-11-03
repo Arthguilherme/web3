@@ -21,7 +21,12 @@ Usuario.init(
         },
         senha: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
+        },
+        google_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: true,
         },
         foto: {
             type: DataTypes.TEXT('long'),
