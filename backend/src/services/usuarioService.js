@@ -10,14 +10,14 @@ const obterUsuarioPorId = async (id) => {
 };
 
 const criarUsuario = async (dados) => {
-    const senhaCriptografada = await bcrypt.hash(dad0s.senha, 10);
+    const senhaCriptografada = await bcrypt.hash(dados.senha, 10);
     
     const novoUsuario = await Usuario.create({
         ...dados,
         senha: senhaCriptografada
     });
 
-    return novouUsuario;
+    return novoUsuario;
 };
 
 const excluirUsuario = async (id) => {

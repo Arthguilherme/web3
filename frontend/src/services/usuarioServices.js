@@ -26,3 +26,13 @@ export const deleteUsuario = async (id) => {
     const response = await api.delete(`/usuarios/${id}`);
     return response.data;
 };
+
+export const atualizarClima = async (id, cidade) => {
+    const response = await api.post(`/usuarios/${id}/clima`, { cidade });
+    return response.data;
+};
+
+export const getClima = async (id) => {
+    const response = await api.get(`/usuarios/${id}/clima`);
+    return response.data;
+};

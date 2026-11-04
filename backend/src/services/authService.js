@@ -6,13 +6,13 @@ const jwt = require('jsonwebtoken');
         const usuario = await Usuario.scope('comSenha').findOne({ where: { email } });
 
         if (!usuario) {
-          throw new Error('Credenciais Inválidas');
+          throw new Error('CREDENCIAIS_INVALIDAS');
         }
     
     const confere = await bcrypt.compare(senha, usuario.senha);
 
     if (!confere) {
-        throw new Error('Credenciais Inválidas');
+        throw new Error('CREDENCIAIS_INVALIDAS');
     }
 
     const token = jwt.sign(

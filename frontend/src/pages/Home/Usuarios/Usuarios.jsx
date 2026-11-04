@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getUsuarios, createUsuario, deleteUsuario, getUsuario, updateUsuario } from '../../../services/usuarioServices';
 import UsuarioModal from '../../../components/UsuarioModal/UsuarioModal';
+import { getUsuarios, createUsuario, deleteUsuario, getUsuario, updateUsuario, atualizarClima, getClima } from '../../../services/usuarioServices';
 
 const styles = {
     usersList: {
@@ -49,6 +50,36 @@ const styles = {
         margin: '2rem 0',
         fontSize: '1.2rem',
     },
+    userRow: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: '12px',
+    },
+    climaPainel: {
+        marginTop: '1rem',
+        paddingTop: '1rem',
+        borderTop: '1px solid var(--border-color)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+    },
+    climaDados: {
+        display: 'flex',
+        alignItems: 'baseline',
+        gap: '12px',
+        flexWrap: 'wrap',
+        color: 'var(--text-primary)',
+    },
+    climaTemperatura: {
+        fontSize: '1.8rem',
+        fontWeight: '700',
+        color: 'var(--primary-color)',
+    },
+    climaErro: {
+        color: '#dc2626',
+        fontSize: '0.9rem',
+    },
 };
 
 function Usuarios() {
@@ -60,6 +91,11 @@ function Usuarios() {
     const [usuarioBuscado, setUsuarioBuscado] = useState(null);
     const [erroBusca, setErroBusca] = useState(null);
     const [usuarioEditando, setUsuarioEditando] = useState(null);
+    const [climaAberto, setClimaAberto] = useState(null);
+    const [clima, setClima] = useState(null);
+    const [cidadeClima, setCidadeClima] = useState('');
+    const [erroClima, setErroClima] = useState(null);
+    const [carregandoClima, setCarregandoClima] = useState(false);
 
     const handleSalvarUsuario = async (dadosUsuario) => {
         try {
@@ -101,6 +137,42 @@ function Usuarios() {
         }
     };
 
+    const handleAbrirClima = async (user) => {
+        if (climaAberto === user.id) {
+            setClimaAberto(null);
+            return;
+        }
+
+        setClimaAberto(user.id);
+        setClima(null);
+        setErroClima(null);
+        setCidadeClima('');
+
+        try {
+            const data = await getClima(user.id);
+            setClima(data.data);
+            setCidadeClima(data.data.cidade);
+        } catch (error) {
+            if (error.response?.status !== 404) {
+                setErroClima(error.response?.data?.err || error.message || 'Erro ao buscar clima');
+            }
+        }
+    };
+
+    const handleAtualizarClima = async (e) => {
+        e.preventDefault();
+        setErroClima(null);
+        setCarregandoClima(true);
+
+        try {
+            const data = await atualizarClima(climaAberto, cidadeClima);
+            setClima(data.data);
+        } catch (error) {
+            setErroClima(error.response?.data?.err || error.message || 'Erro ao atualizar clima');
+        } finally {
+            setCarregandoClima(false);
+        }
+    };
 
     useEffect(() => {
         const fetchUsuarios = async () => {
@@ -152,14 +224,50 @@ function Usuarios() {
             {!loading && !error && users.length > 0 && (
                 <ul style={styles.usersList}>
                     {users.map(user => (
-                        <li key={user.id} style={styles.userCard}>
-                            <div style={styles.userInfo}>
-                                <span style={styles.userName}>{user.nome}</span>
-                                <span style={styles.userEmail}>{user.email}</span>
+                        <li key={user.id} style={{ ...styles.userCard, flexDirection: 'column', alignItems: 'stretch' }}>
+                            <div style={styles.userRow}>
+                                <div style={styles.userInfo}>
+                                    <span style={styles.userName}>{user.nome}</span>
+                                    <span style={styles.userEmail}>{user.email}</span>
+                                </div>
+                                <div style={styles.statusBadge}>ID #{user.id}</div>
+                                <button onClick={() => { setUsuarioEditando(user); setModalAberto(true); }}>Editar</button>
+                                <button onClick={() => handleExcluir(user.id)}>Excluir</button>
+                                <button onClick={() => handleAbrirClima(user)}>Clima</button>
                             </div>
-                            <div style={styles.statusBadge}>ID #{user.id}</div>
-                            <button onClick={() => { setUsuarioEditando(user); setModalAberto(true); }}>Editar</button>
-                            <button onClick={() => handleExcluir(user.id)}>Excluir</button>
+
+                            {climaAberto === user.id && (
+                                <div style={styles.climaPainel}>
+                                    <form onSubmit={handleAtualizarClima} style={{ display: 'flex', gap: '8px' }}>
+                                        <input
+                                            type="text"
+                                            placeholder="Cidade (ex: Paranaguá)"
+                                            value={cidadeClima}
+                                            onChange={(e) => setCidadeClima(e.target.value)}
+                                            required
+                                        />
+                                        <button type="submit" disabled={carregandoClima}>
+                                            {carregandoClima ? 'Consultando...' : 'Atualizar'}
+                                        </button>
+                                    </form>
+
+                                    {erroClima && <div style={styles.climaErro}>{erroClima}</div>}
+
+                                    {clima && (
+                                        <div style={styles.climaDados}>
+                                            <span style={styles.climaTemperatura}>{Number(clima.temperatura).toFixed(1)}°C</span>
+                                            <span>{clima.condicao_clima}</span>
+                                            <span style={styles.userEmail}>
+                                                {clima.cidade} · atualizado em {new Date(clima.consultado_em).toLocaleString('pt-BR')}
+                                            </span>
+                                        </div>
+                                    )}
+
+                                    {!clima && !erroClima && (
+                                        <span style={styles.userEmail}>Nenhum clima salvo. Digite a cidade e clique em Atualizar.</span>
+                                    )}
+                                </div>
+                            )}
                         </li>
                     ))}
                 </ul>
