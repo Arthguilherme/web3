@@ -5,9 +5,12 @@ const cepRoutes = require('../src/routes/cepRoutes');
 const app = express();
 const PORT = 3000;
 const router = require('../src/routes/routes')
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./docs/swagger');
 
 app.use(cors());
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(router);
 
 app.get('/api/mensagem', (req, res) => {

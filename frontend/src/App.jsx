@@ -19,11 +19,11 @@ import {
 } from 'lucide-react';
 
 import Home from './pages/Home/Home';
-import Usuarios from './pages/Usuarios/Usuarios';
+import Usuarios from './pages/Home/Usuarios/Usuarios';
 import Login from './pages/Login/Login';
 import RotaPrivada from './components/RotaPrivada';
 import Header from './components/Header'; // ajuste o caminho
-import { useAuth } from './contexts/AuthContext';
+import { useAuth } from './context/authContext.jsx';
 
 function Layout() {
     const [theme, setTheme] = useState(

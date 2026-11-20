@@ -3,20 +3,20 @@ import * as authService from '../services/authService';
 
 const AuthContext = createContext ();
 
-export const AuthPRovider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
     const [usuario, setUsuario] = useState(() => {
         const salvo = localStorage.getItem('usuario');
         return salvo ? JSON.parse(salvo) : null;
     });
 
-    const [carregando, setCarregando] = usestate(false);
+    const [carregando, setCarregando] = useState(false);
     const [erro, setErro] = useState('');
     const entrar = async (email, senha) => {
         setCarregando(true);
         setErro('');
         try {
             const dados = await authService.login(email, senha);
-            authService.Service.salvarSessao(dados.token, dados.usuario);
+            authService.salvarSessao(dados.token, dados.usuario);
             setUsuario(dados.usuario);
             return true;
         } catch (e) {

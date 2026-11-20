@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getUsuarios, createUsuario, deleteUsuario, getUsuario, updateUsuario } from '../../../services/usuarioServices';
-import UsuarioModal from '../../../components/UsuarioModal/UsuarioModal';
 import { getUsuarios, createUsuario, deleteUsuario, getUsuario, updateUsuario, atualizarClima, getClima } from '../../../services/usuarioServices';
+import UsuarioModal from '../../../components/UsuarioModal/UsuarioModal';
 
 const styles = {
     usersList: {
