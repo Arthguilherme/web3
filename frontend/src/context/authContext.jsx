@@ -5,12 +5,18 @@ const AuthContext = createContext ();
 
 export const AuthProvider = ({ children }) => {
     const [usuario, setUsuario] = useState(() => {
+       try{
         const salvo = localStorage.getItem('usuario');
         return salvo ? JSON.parse(salvo) : null;
+       } catch  {
+            authService.limparSessao();
+            return null;
+       }
     });
 
     const [carregando, setCarregando] = useState(false);
     const [erro, setErro] = useState('');
+
     const entrar = async (email, senha) => {
         setCarregando(true);
         setErro('');
@@ -27,6 +33,23 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const entrarComGoogle = async (credential) => {
+        setCarregando(true);
+        setErro('');
+        try {
+            const dados = await authService.loginComGoogle(credential);
+            authService.salvarSessao(dados.token, dados.usuario);
+            setUsuario(dados.usuario);
+            return true;
+        } catch (e) {
+            console.log('Erro Google:', e.response?.status, e.response?.data, e.message);
+            setErro('Não foi possível entrar com o Google');
+            return false;
+        } finally {
+            setCarregando(false);
+        }
+    };
+
     const sair = () => {
         authService.limparSessao();
         setUsuario(null);
@@ -34,7 +57,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider
-        value= {{ usuario, entrar, sair, carregando, erro }}
+        value= {{ usuario, entrar, entrarComGoogle, sair, carregando, erro }}
         >
             {children}
         </AuthContext.Provider>
