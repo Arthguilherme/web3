@@ -15,15 +15,17 @@ import {
     LogOut,
     Sun,
     Moon,
-    Activity
+    Activity,
+    BookOpen
 } from 'lucide-react';
 
 import Home from './pages/Home/Home';
 import Usuarios from './pages/Home/Usuarios/Usuarios';
 import Login from './pages/Login/Login';
 import RotaPrivada from './components/RotaPrivada';
-import Header from './components/Header'; // ajuste o caminho
+import Header from './components/Header'; 
 import { useAuth } from './context/authContext.jsx';
+import Biblioteca from './pages/Biblioteca/Biblioteca';
 
 function Layout() {
     const [theme, setTheme] = useState(
@@ -61,7 +63,7 @@ function Layout() {
                         }}
                     >
                         <Activity size={24} color="var(--primary-color)" />
-                        WEB III
+                        Biblioteca
                     </div>
                 </div>
 
@@ -81,6 +83,15 @@ function Layout() {
                 >
                     <Users size={20} />
                     Usuários
+                </Link>
+
+                <Link
+                    to="/biblioteca"
+                    className="sidebar-link"
+                    style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                >
+                    <BookOpen size={20} />
+                    Biblioteca
                 </Link>
 
                 <Link
@@ -142,7 +153,7 @@ function Layout() {
 function App() {
     return (
         <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Navigate to="/biblioteca" replace />} />
             <Route
                 element={
                     <RotaPrivada>
@@ -151,7 +162,10 @@ function App() {
                 }
             >
                 <Route path="/" element={<Home />} />
+                <Route path="/biblioteca" element={<Biblioteca />} />
                 <Route path="/usuarios" element={<Usuarios />} />
+                
+
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

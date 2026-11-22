@@ -42,7 +42,6 @@ export const AuthProvider = ({ children }) => {
             setUsuario(dados.usuario);
             return true;
         } catch (e) {
-            console.log('Erro Google:', e.response?.status, e.response?.data, e.message);
             setErro('Não foi possível entrar com o Google');
             return false;
         } finally {

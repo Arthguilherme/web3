@@ -7,7 +7,7 @@ const options = {
         info: {
             title: 'API Web III',
             version: '1.0.0',
-            description: 'API de usuários com login JWT e previsão do tempo (Open-Meteo)',
+            description: 'API da Biblioteca: login com JWT e Google, busca de livros na Open Library e lista pessoal de leitura',
         },
         servers: [{ url: 'http://localhost:3000' }],
         components: {
