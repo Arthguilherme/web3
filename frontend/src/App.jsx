@@ -62,7 +62,7 @@ function Layout() {
                             gap: '8px'
                         }}
                     >
-                        <Activity size={24} color="var(--primary-color)" />
+                        <BookOpen size={24} color="var(--primary-color)" />
                         Biblioteca
                     </div>
                 </div>
@@ -153,7 +153,7 @@ function Layout() {
 function App() {
     return (
         <Routes>
-            <Route path="/" element={<Navigate to="/biblioteca" replace />} />
+            <Route path="/login" element={<Login />} />
             <Route
                 element={
                     <RotaPrivada>
@@ -161,14 +161,14 @@ function App() {
                     </RotaPrivada>
                 }
             >
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Navigate to="/biblioteca" replace />} />
                 <Route path="/biblioteca" element={<Biblioteca />} />
                 <Route path="/usuarios" element={<Usuarios />} />
                 
 
             </Route>
-            <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+                <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
     );
 }
 

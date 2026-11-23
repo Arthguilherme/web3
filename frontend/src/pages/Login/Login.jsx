@@ -14,14 +14,14 @@ function Login() {
         e.preventDefault();
         const deuCerto = await entrar(email, senha);
         if(deuCerto) {
-            navigate('/usuarios');
+            navigate('/Biblioteca');
         }
     };
 
     const handleGoogle = async (resposta) => {
         const deuCerto = await entrarComGoogle(resposta.credential);
         if (deuCerto) {
-            navigate('/usuarios');
+            navigate('/Biblioteca');
         }
     };
 

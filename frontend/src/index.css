@@ -9,17 +9,17 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* LIGHT THEME (Padrão) */
-  --bg-global: #f4f6f8;
+  --bg-global: #faf6f0;
   --bg-sidebar: #ffffff;
   --bg-navbar: #ffffff;
-  --bg-content: #f4f6f8;
+  --bg-content: #faf6f0;
   --text-primary: #1e1e1e;
   --text-secondary: #637381;
   --border-color: rgba(145, 158, 171, 0.24);
   --hover-bg: rgba(145, 158, 171, 0.08);
-  --primary-color: #4facfe;
+  --primary-color: #b45309;
   --card-bg: #ffffff;
-  --badge-bg: rgba(79, 172, 254, 0.15);
+  --badge-bg: rgba(180, 83, 9, 0.12);
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
@@ -33,9 +33,9 @@
   --text-secondary: #919eab;
   --border-color: rgba(255, 255, 255, 0.05);
   --hover-bg: rgba(255, 255, 255, 0.03);
-  --primary-color: #4facfe;
+  --primary-color: #f59e0b;
   --card-bg: rgba(0, 0, 0, 0.3);
-  --badge-bg: rgba(79, 172, 254, 0.15);
+  --badge-bg: rgba(245, 158, 11, 0.15);
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
