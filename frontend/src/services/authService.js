@@ -7,7 +7,6 @@ export const login = async (email, senha) => {
 
 export const loginComGoogle = async (credential) => {
     const response = await api.post('/auth/google', { credential });
-    console.log('Resposta do backend:', response.status, response.data);
     return response.data.data;
 };
 

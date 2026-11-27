@@ -1,58 +1,75 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/authContext.jsx';
 import { GoogleLogin } from '@react-oauth/google';
+import { BookOpen } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import './Login.css';
 
 function Login() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
-    const { entrar, entrarComGoogle ,carregando, erro } = useAuth();
+    const { entrar, entrarComGoogle, carregando, erro } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const deuCerto = await entrar(email, senha);
-        if(deuCerto) {
-            navigate('/Biblioteca');
+        if (deuCerto) {
+            navigate('/');
         }
     };
 
     const handleGoogle = async (resposta) => {
         const deuCerto = await entrarComGoogle(resposta.credential);
         if (deuCerto) {
-            navigate('/Biblioteca');
+            navigate('/');
         }
     };
 
-    return(
-        <div>
-        <form onSubmit={handleSubmit}>
-            <h1>Entrar</h1>
+    return (
+        <div className="login-page">
+            <div className="login-card">
+                <div className="login-brand">
+                    <BookOpen size={28} color="var(--primary-color)" />
+                    <span>Biblioteca</span>
+                </div>
+                <p className="login-subtitle">Entre para acessar a sua estante</p>
 
-            <input type="email" placeholder="Email" required
-                value={email}
-                onChange= {(e) => setEmail(e.target.value)} />
+                <form onSubmit={handleSubmit} className="login-form">
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Senha"
+                        required
+                        value={senha}
+                        onChange={(e) => setSenha(e.target.value)}
+                    />
 
-            <input type="password" placeholder="senha" required
-                value={senha}
-                onChange={ (e) => setSenha(e.target.value)} />
+                    {erro && <p className="login-erro">{erro}</p>}
 
-            {erro && <p style={{ color: 'red' }}>{erro}</p>}
+                    <button type="submit" disabled={carregando}>
+                        {carregando ? 'Entrando...' : 'Entrar'}
+                    </button>
+                </form>
 
-            <button type="submit" disabled={carregando}>
-                {carregando ? 'Entrando...' : 'Entrar'}
-            </button>
-        </form>
+                <div className="login-divider"><span>ou</span></div>
 
-         <p>ou</p>
-
-            <GoogleLogin
-                onSuccess={handleGoogle}
-                onError={() => console.log('Falha no login com Google')}
-            />
+                <div className="login-google">
+                    <GoogleLogin
+                        onSuccess={handleGoogle}
+                        onError={() => console.log('Falha no login com Google')}
+                    />
+                </div>
+            </div>
         </div>
-    ); 
+    );
 }
 
 export default Login;

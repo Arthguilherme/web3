@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/authContext.jsx';
+import { useAuth } from '../contexts/AuthContext.jsx';
 
 function RotaPrivada({ children, perfilNecessario }) {
     const { usuario } = useAuth();

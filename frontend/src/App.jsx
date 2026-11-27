@@ -24,7 +24,7 @@ import Usuarios from './pages/Home/Usuarios/Usuarios';
 import Login from './pages/Login/Login';
 import RotaPrivada from './components/RotaPrivada';
 import Header from './components/Header'; 
-import { useAuth } from './context/authContext.jsx';
+import { useAuth } from './contexts/AuthContext.jsx';
 import Biblioteca from './pages/Biblioteca/Biblioteca';
 
 function Layout() {
@@ -73,7 +73,7 @@ function Layout() {
                     style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
                 >
                     <LayoutDashboard size={20} />
-                    Dashboard
+                    início
                 </Link>
 
                 <Link
@@ -161,7 +161,7 @@ function App() {
                     </RotaPrivada>
                 }
             >
-                <Route path="/" element={<Navigate to="/biblioteca" replace />} />
+                <Route path="/" element={<Home />} />
                 <Route path="/biblioteca" element={<Biblioteca />} />
                 <Route path="/usuarios" element={<Usuarios />} />
                 

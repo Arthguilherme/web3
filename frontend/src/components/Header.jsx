@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/authContext.jsx';
+import { useAuth } from '../contexts/AuthContext.jsx';
 
 function Header() {
     const { usuario, sair } = useAuth();
