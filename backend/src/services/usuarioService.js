@@ -37,8 +37,14 @@ const editarUsuario = async (id, dados) => {
     if (!usuario) {
         return null;
     }
+    const alteracoes = { ...dados };
 
-    await usuario.update(dados);
+    if (alteracoes.senha) {
+        alteracoes.senha = await bcrypt.hash(alteracoes.senha, 10);
+    } else {
+        delete alteracoes.senha;
+    }
+    await usuario.update(alteracoes);
     return usuario;
 };
 

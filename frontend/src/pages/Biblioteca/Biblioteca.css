@@ -1,0 +1,81 @@
+.biblioteca h1 {
+    margin-bottom: 0.25rem;
+}
+
+.biblioteca h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.15rem;
+}
+
+.biblioteca input,
+.biblioteca select {
+    padding: 9px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.biblioteca input {
+    flex: 1;
+    min-width: 0;
+}
+
+.biblioteca input:focus,
+.biblioteca select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.biblioteca button {
+    padding: 9px 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: var(--primary-color);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.biblioteca button:hover {
+    opacity: 0.88;
+}
+
+.biblioteca button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.biblioteca .btn-remover {
+    background: transparent;
+    color: var(--text-secondary);
+    border-color: var(--border-color);
+}
+
+.biblioteca .btn-remover:hover {
+    color: #dc2626;
+    border-color: #dc2626;
+    opacity: 1;
+}
+
+.biblioteca .acoes select {
+    padding: 6px 8px;
+    font-size: 0.85rem;
+}
+
+.biblioteca .acoes button {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+}
+
+.biblioteca .livro-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.biblioteca .livro-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}

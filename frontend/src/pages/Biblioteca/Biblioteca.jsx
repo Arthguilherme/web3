@@ -4,8 +4,9 @@ import {
     listarLivros,
     adicionarLivro,
     atualizarLivro,
-    removerLivro,
+    removerLivro, 
 } from '../../services/livroServices';
+import './Biblioteca.css';
 
 const styles = {
     secao: {
@@ -174,7 +175,7 @@ function Biblioteca() {
     };
 
     return (
-        <div className="page-container">
+        <div className="page-container biblioteca">
             <h1>Biblioteca</h1>
 
             <form onSubmit={handleBuscar} style={styles.formBusca}>
@@ -201,7 +202,7 @@ function Biblioteca() {
             {resultados.length > 0 && (
                 <div style={styles.grade}>
                     {resultados.map((livro) => (
-                        <div key={livro.ol_key} style={styles.card}>
+                        <div key={livro.ol_key} className="livro-card" style={styles.card}>
                             <Capa url={livro.capa_url} titulo={livro.titulo} />
                             <div style={styles.info}>
                                 <span style={styles.titulo}>{livro.titulo}</span>
@@ -241,7 +242,7 @@ function Biblioteca() {
                 {minhaLista.length > 0 && (
                     <div style={{ ...styles.grade, marginTop: '1rem' }}>
                         {minhaLista.map((livro) => (
-                            <div key={livro.id} style={styles.card}>
+                            <div key={livro.id} className="livro-card" style={styles.card}>
                                 <Capa url={livro.capa_url} titulo={livro.titulo} />
                                 <div style={styles.info}>
                                     <span style={styles.titulo}>{livro.titulo}</span>
@@ -271,7 +272,7 @@ function Biblioteca() {
                                                 <option key={n} value={n}>{n} ★</option>
                                             ))}
                                         </select>
-                                        <button onClick={() => handleRemover(livro.id)}>Remover</button>
+                                        <button className="btn-remover" onClick={() => handleRemover(livro.id)}>Remover</button>
                                     </div>
                                 </div>
                             </div>
